@@ -25,7 +25,7 @@ function App() {
     setIsEditAvatarPopupOpen(false);
     setIsImagePopupOpen(false);
   }
-  
+
   function handleCardClick(card) {
     setIsImagePopupOpen(true);
     setSelectedCard({
@@ -48,7 +48,7 @@ function App() {
       <Main onCardClick={handleCardClick} onEditAvatar={handleEditAvatarClick} onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} />
       <Footer />
       <ImagePopup isOpened={isImagePopupOpen} onClose={closeAllPopups} onCardClick={handleCardClick} card={selectedCard} />
-      <PopupWithForm isOpened={isAddPlacePopupOpen} onClose={closeAllPopups} name="popup_add-card" title="Новое место">
+      <PopupWithForm buttonText="Добавить" isOpened={isAddPlacePopupOpen} onClose={closeAllPopups} name="popup_add-card" title="Новое место">
         <input
           type="text"
           id="place"
@@ -69,11 +69,8 @@ function App() {
           required=""
         />
         <span className="place-link-error popup__input-error" />
-        <button className="popup__buttons-save " type="submit">
-          Создать
-        </button>
       </PopupWithForm>
-      <PopupWithForm isOpened={isEditAvatarPopupOpen} onClose={closeAllPopups} name="popup_edit-avatar" title="Обновить аватар">
+      <PopupWithForm buttonText="Сохранить" isOpened={isEditAvatarPopupOpen} onClose={closeAllPopups} name="popup_edit-avatar" title="Обновить аватар">
         <input
           type="url"
           id="link"
@@ -83,15 +80,8 @@ function App() {
           required=""
         />
         <span className="link-error popup__input-error" />
-        <button
-          className="popup__buttons-save"
-          style={{ marginTop: 16 }}
-          type="submit"
-        >
-          Сохранить
-        </button>
       </PopupWithForm>
-      <PopupWithForm isOpened={isEditProfilePopupOpen} onClose={closeAllPopups} name="popup_edit-profile" title="Редактировать профиль">
+      <PopupWithForm buttonText="Сохранить" isOpened={isEditProfilePopupOpen} onClose={closeAllPopups} name="popup_edit-profile" title="Редактировать профиль">
         <input
           id="username"
           type="text"
@@ -114,9 +104,6 @@ function App() {
           required=""
         />
         <span className="hobby-error popup__input-error" />
-        <button className="popup__buttons-save" type="submit">
-          Сохранить
-        </button>
       </PopupWithForm>
     </div>
   );

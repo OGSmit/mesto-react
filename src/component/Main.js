@@ -18,7 +18,7 @@ function Main(props) {
         setUserAvatar(data.avatar)
       })
       .catch(err => console.log(`Component Main get ${err}`))
-  });
+  }, []);
 
   React.useEffect(() => {
     api.getInitialCard()
@@ -54,39 +54,6 @@ function Main(props) {
           )
         })}
       </section>
-      <div className="popup" id="popup_edit-profile">
-        <div className="popup__container popup__container_form popup__container_target">
-          <button className="popup__buttons-close" type="button" />
-          <h3 className="popup__title">Редактировать профиль</h3>
-          <form className="popup__form" name="profile-form" noValidate="">
-            <input
-              id="username"
-              type="text"
-              className="popup__inputs popup__inputs_type_name"
-              name="name"
-              placeholder="Имя"
-              minLength={2}
-              maxLength={40}
-              required=""
-            />
-            <span className="username-error popup__input-error" />
-            <input
-              id="hobby"
-              type="text"
-              className="popup__inputs popup__inputs_type_hobby"
-              name="about"
-              placeholder="Вид деятельности"
-              minLength={2}
-              maxLength={200}
-              required=""
-            />
-            <span className="hobby-error popup__input-error" />
-            <button className="popup__buttons-save" type="submit">
-              Сохранить
-            </button>
-          </form>
-        </div>
-      </div>
     </main>
   )
 }
