@@ -8,6 +8,7 @@ import ImagePopup from './ImagePopup';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import api from '../utils/Api';
 import EditProfilePopup from './EditProfilePopup';
+import EditAvatarPopup from './EditAvatarPopup';
 
 function App() {
   function handleEditAvatarClick() {
@@ -76,6 +77,14 @@ function App() {
     })
   }
 
+  function handleUpdateAvatar(item) {
+    api.editAvatar(item)
+    .then((data) => {
+      setCurrentUser({...currentUser, ...data});
+      closeAllPopups();
+    })
+  }
+
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
@@ -133,17 +142,7 @@ function App() {
           />
           <span className="place-link-error popup__input-error" />
         </PopupWithForm>
-        <PopupWithForm buttonText="Сохранить" isOpened={isEditAvatarPopupOpen} onClose={closeAllPopups} name="popup_edit-avatar" title="Обновить аватар">
-          <input
-            type="url"
-            id="link"
-            className="popup__inputs popup__inputs_type_hobby"
-            placeholder="Ссылка на картинку"
-            name="avatar"
-            required=""
-          />
-          <span className="link-error popup__input-error" />
-        </PopupWithForm>
+        <EditAvatarPopup  onUpdateAvatar={handleUpdateAvatar} isOpened={isEditAvatarPopupOpen} onClose={closeAllPopups}/>
       </CurrentUserContext.Provider>
     </div>
   );
