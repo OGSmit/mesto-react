@@ -7,6 +7,7 @@ import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import api from '../utils/Api';
+import EditProfilePopup from './EditProfilePopup';
 
 function App() {
   function handleEditAvatarClick() {
@@ -63,6 +64,18 @@ function App() {
         setCards([...updatedCards])
       })
   }
+
+  function handleUpdateUser(item) {
+    api.editProfile(item)
+    .then((data) => {
+      setCurrentUser({
+        ...currentUser,
+        ...data
+      });
+      closeAllPopups();
+    })
+  }
+
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
@@ -97,6 +110,7 @@ function App() {
         <Main onCardDelete={handleCardDelete} cards={cards} onCardLike={handleCardLike} onCardClick={handleCardClick} onEditAvatar={handleEditAvatarClick} onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} />
         <Footer />
         <ImagePopup isOpened={isImagePopupOpen} onClose={closeAllPopups} onCardClick={handleCardClick} card={selectedCard} />
+        <EditProfilePopup onUpdateUser={handleUpdateUser} isOpened={isEditProfilePopupOpen} onClose={closeAllPopups} />
         <PopupWithForm buttonText="Добавить" isOpened={isAddPlacePopupOpen} onClose={closeAllPopups} name="popup_add-card" title="Новое место">
           <input
             type="text"
@@ -130,32 +144,7 @@ function App() {
           />
           <span className="link-error popup__input-error" />
         </PopupWithForm>
-        <PopupWithForm buttonText="Сохранить" isOpened={isEditProfilePopupOpen} onClose={closeAllPopups} name="popup_edit-profile" title="Редактировать профиль">
-          <input
-            id="username"
-            type="text"
-            className="popup__inputs popup__inputs_type_name"
-            name="name"
-            placeholder="Имя"
-            minLength={2}
-            maxLength={40}
-            required=""
-          />
-          <span className="username-error popup__input-error" />
-          <input
-            id="hobby"
-            type="text"
-            className="popup__inputs popup__inputs_type_hobby"
-            name="about"
-            placeholder="Вид деятельности"
-            minLength={2}
-            maxLength={200}
-            required=""
-          />
-          <span className="hobby-error popup__input-error" />
-        </PopupWithForm>
       </CurrentUserContext.Provider>
-
     </div>
   );
 }
