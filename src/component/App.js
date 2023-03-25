@@ -9,6 +9,7 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import api from '../utils/Api';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
+import AddPlacePopup from './AddPlacePopup';
 
 function App() {
   function handleEditAvatarClick() {
@@ -68,21 +69,34 @@ function App() {
 
   function handleUpdateUser(item) {
     api.editProfile(item)
-    .then((data) => {
-      setCurrentUser({
-        ...currentUser,
-        ...data
-      });
-      closeAllPopups();
-    })
+      .then((data) => {
+        setCurrentUser({
+          ...currentUser,
+          ...data
+        });
+        closeAllPopups();
+      })
   }
 
   function handleUpdateAvatar(item) {
     api.editAvatar(item)
-    .then((data) => {
-      setCurrentUser({...currentUser, ...data});
-      closeAllPopups();
-    })
+      .then((data) => {
+        setCurrentUser({ ...currentUser, ...data });
+        closeAllPopups();
+      })
+  }
+
+  function handleAddPlaceSubmit(item) {
+    api.addCard(item)
+      .then((data) => {
+        console.log(cards);
+        setCards([
+          ...cards,
+          data
+        ]);
+        console.log(cards);
+        closeAllPopups();
+      })
   }
 
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
@@ -120,29 +134,8 @@ function App() {
         <Footer />
         <ImagePopup isOpened={isImagePopupOpen} onClose={closeAllPopups} onCardClick={handleCardClick} card={selectedCard} />
         <EditProfilePopup onUpdateUser={handleUpdateUser} isOpened={isEditProfilePopupOpen} onClose={closeAllPopups} />
-        <PopupWithForm buttonText="Добавить" isOpened={isAddPlacePopupOpen} onClose={closeAllPopups} name="popup_add-card" title="Новое место">
-          <input
-            type="text"
-            id="place"
-            className="popup__inputs popup__inputs_type_name"
-            placeholder="Название"
-            name="name"
-            minLength={2}
-            maxLength={40}
-            required=""
-          />
-          <span className="place-error popup__input-error" />
-          <input
-            type="url"
-            id="place-link"
-            className="popup__inputs popup__inputs_type_hobby"
-            placeholder="Ссылка на картинку"
-            name="link"
-            required=""
-          />
-          <span className="place-link-error popup__input-error" />
-        </PopupWithForm>
-        <EditAvatarPopup  onUpdateAvatar={handleUpdateAvatar} isOpened={isEditAvatarPopupOpen} onClose={closeAllPopups}/>
+        <AddPlacePopup onAddPlace={handleAddPlaceSubmit} isOpened={isAddPlacePopupOpen} onClose={closeAllPopups} />
+        <EditAvatarPopup onUpdateAvatar={handleUpdateAvatar} isOpened={isEditAvatarPopupOpen} onClose={closeAllPopups} />
       </CurrentUserContext.Provider>
     </div>
   );
