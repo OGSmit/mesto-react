@@ -1,11 +1,11 @@
 import '../index.css';
-import React from 'react';
+import {useContext} from 'react';
 import Card from './Card';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
 function Main(props) {
 
-  const userInfo = React.useContext(CurrentUserContext);
+  const userInfo = useContext(CurrentUserContext);
 
   return (
     <main className="main">

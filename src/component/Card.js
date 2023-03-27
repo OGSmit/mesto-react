@@ -1,9 +1,9 @@
-import React from "react";
+import {useContext} from "react";
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
 function Card(props) {
 
-  const userInfo = React.useContext(CurrentUserContext);
+  const userInfo = useContext(CurrentUserContext);
   const isOwn = props.card.owner._id === userInfo._id;
   const isLiked = props.card.likes.some(i => i._id === userInfo._id);
 
@@ -38,5 +38,3 @@ function Card(props) {
 }
 
 export default Card;
-
-// {isOwn && <button className='place-card__buttons-delete' onClick={handleDeleteClick} />}

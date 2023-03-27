@@ -1,10 +1,10 @@
-import React from "react"
+import { useState, useEffect } from "react"
 import PopupWithForm from "./PopupWithForm";
 
 function AddPlacePopup(props) {
-  
-  const [name, setName] = React.useState('');
-  const [link, setLink] = React.useState('');
+
+  const [name, setName] = useState('');
+  const [link, setLink] = useState('');
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -22,10 +22,16 @@ function AddPlacePopup(props) {
     setLink(e.target.value)
   }
 
+  useEffect(() => {
+    setName('');
+    setLink('');
+  }, [props.isOpened])
+
+
   return (
     <PopupWithForm onSubmit={handleSubmit} buttonText="Добавить" isOpened={props.isOpened} onClose={props.onClose} name="popup_add-card" title="Новое место">
       <input
-        value={name}
+        value={name || ''}
         onChange={handleChangeName}
         type="text"
         id="place"
@@ -38,7 +44,7 @@ function AddPlacePopup(props) {
       />
       <span className="place-error popup__input-error" />
       <input
-        value={link}
+        value={link || ''}
         onChange={handleChangeLink}
         type="url"
         id="place-link"
