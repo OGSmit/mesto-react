@@ -1,4 +1,4 @@
-import {useRef, useEffect} from "react";
+import { useRef, useEffect } from "react";
 import PopupWithForm from "./PopupWithForm";
 
 function EditAvatarPopup(props) {
@@ -14,10 +14,10 @@ function EditAvatarPopup(props) {
 
   useEffect(() => {
     inputRef.current.value = '';
-  },[props.isOpened])
+  }, [props.isOpened])
 
   return (
-    <PopupWithForm onSubmit={handleSubmit} buttonText={props.isOpened && props.isApiProcessing? 'Сохраняю...' : 'Сохранить'} isOpened={props.isOpened} onClose={props.onClose} name="popup_edit-avatar" title="Обновить аватар">
+    <PopupWithForm onSubmit={handleSubmit} buttonText={props.isOpened && props.isApiProcessing ? 'Сохраняю...' : 'Сохранить'} isOpened={props.isOpened} onClose={props.onClose} name="popup_edit-avatar" title="Обновить аватар">
       <input
         ref={inputRef || ''}
         type="url"

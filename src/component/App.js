@@ -23,7 +23,7 @@ function App() {
   const [isConfirmDeletePopupOpen, setIsConfirmDeletePopupOpen] = useState(false);
   const [cardForRemove, setCardForRemove] = useState({})
   const [isApiProcessing, setIsApiProcessing] = useState(false)
-  
+
 
   function handleCardRemoveClick(card) {
     // Не знал как лучше, но работает ч1
