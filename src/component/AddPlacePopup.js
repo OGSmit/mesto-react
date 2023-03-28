@@ -29,7 +29,7 @@ function AddPlacePopup(props) {
 
 
   return (
-    <PopupWithForm onSubmit={handleSubmit} buttonText="Добавить" isOpened={props.isOpened} onClose={props.onClose} name="popup_add-card" title="Новое место">
+    <PopupWithForm onSubmit={handleSubmit} buttonText={props.isOpened && props.isApiProcessing? 'Добавляю...' : 'Добавить'} isOpened={props.isOpened} onClose={props.onClose} name="popup_add-card" title="Новое место">
       <input
         value={name || ''}
         onChange={handleChangeName}

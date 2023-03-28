@@ -22,9 +22,11 @@ function App() {
   const [cards, setCards] = useState([]);
   const [isConfirmDeletePopupOpen, setIsConfirmDeletePopupOpen] = useState(false);
   const [cardForRemove, setCardForRemove] = useState({})
+  const [isApiProcessing, setIsApiProcessing] = useState(false)
+  
 
   function handleCardRemoveClick(card) {
-    // Не знал как лучше ч.1, но работает )
+    // Не знал как лучше, но работает ч1
     setIsConfirmDeletePopupOpen(true);
     setCardForRemove(card)
   }
@@ -47,6 +49,8 @@ function App() {
     setIsEditAvatarPopupOpen(false);
     setIsImagePopupOpen(false);
     setIsConfirmDeletePopupOpen(false);
+    // страховка , finally иногда почему-то не меняет setIsApiProcessing(false)
+    setIsApiProcessing(false)
   }
 
   function handleCardClick(card) {
@@ -56,6 +60,27 @@ function App() {
       name: card.name,
       link: card.link
     });
+  }
+
+
+  function handleCardDelete(e) {
+    // Не знал как лучше, но работает ч2
+    e.preventDefault();
+    setIsApiProcessing(true)
+    api.removeCard(cardForRemove._id)
+      .then(() => {
+        const updatedCards = cards.filter((element) => {
+          if (element._id !== cardForRemove._id) {
+            return element
+          }
+        })
+        setCards([...updatedCards]);
+        setIsConfirmDeletePopupOpen(false);
+      })
+      .catch(err => console.log(`Упс ${err}`))
+      .finally(() => {
+        setIsApiProcessing(false)
+      })
   }
 
   function handleCardLike(card) {
@@ -75,23 +100,8 @@ function App() {
     }
   }
 
-  function handleCardDelete(e) {
-    // Не знал как лучше ч.2, но работает )
-    e.preventDefault();
-    api.removeCard(cardForRemove._id)
-      .then(() => {
-        const updatedCards = cards.filter((element) => {
-          if (element._id !== cardForRemove._id) {
-            return element
-          }
-        })
-        setCards([...updatedCards]);
-        setIsConfirmDeletePopupOpen(false);
-      })
-      .catch(err => console.log(`Упс ${err}`))
-  }
-
   function handleUpdateUser(item) {
+    setIsApiProcessing(true)
     api.editProfile(item)
       .then((data) => {
         setCurrentUser({
@@ -101,18 +111,26 @@ function App() {
         closeAllPopups();
       })
       .catch(err => console.log(`Упс ${err}`))
+      .finally(() => {
+        setIsApiProcessing(false)
+      })
   }
 
   function handleUpdateAvatar(item) {
+    setIsApiProcessing(true)
     api.editAvatar(item)
       .then((data) => {
         setCurrentUser({ ...currentUser, ...data });
         closeAllPopups();
       })
       .catch(err => console.log(`Упс ${err}`))
+      .finally(() => {
+        setIsApiProcessing(false)
+      })
   }
 
   function handleAddPlaceSubmit(item) {
+    setIsApiProcessing(true)
     api.addCard(item)
       .then((data) => {
         setCards([
@@ -122,6 +140,9 @@ function App() {
         closeAllPopups();
       })
       .catch(err => console.log(`Упс ${err}`))
+      .finally(() => {
+        setIsApiProcessing(false)
+      })
   }
 
   useEffect(() => {
@@ -142,17 +163,18 @@ function App() {
       }).catch(err => console.log(`Component Main get ${err}`))
   }, []);
 
+
   return (
     <div className="page">
       <CurrentUserContext.Provider value={currentUser} >
         <Header />
         <Main onCardDelete={handleCardRemoveClick} cards={cards} onCardLike={handleCardLike} onCardClick={handleCardClick} onEditAvatar={handleEditAvatarClick} onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} />
         <Footer />
-        <ImagePopup isOpened={isImagePopupOpen} onClose={closeAllPopups} onCardClick={handleCardClick} card={selectedCard} />
-        <EditProfilePopup onUpdateUser={handleUpdateUser} isOpened={isEditProfilePopupOpen} onClose={closeAllPopups} />
-        <AddPlacePopup onAddPlace={handleAddPlaceSubmit} isOpened={isAddPlacePopupOpen} onClose={closeAllPopups} />
-        <EditAvatarPopup onUpdateAvatar={handleUpdateAvatar} isOpened={isEditAvatarPopupOpen} onClose={closeAllPopups} />
-        <ConfirmDeletePopup isOpened={isConfirmDeletePopupOpen} onClose={closeAllPopups} onSubmit={handleCardDelete}/>
+        <ImagePopup isApiProcessing={isApiProcessing} isOpened={isImagePopupOpen} onClose={closeAllPopups} onCardClick={handleCardClick} card={selectedCard} />
+        <EditProfilePopup isApiProcessing={isApiProcessing} onUpdateUser={handleUpdateUser} isOpened={isEditProfilePopupOpen} onClose={closeAllPopups} />
+        <AddPlacePopup isApiProcessing={isApiProcessing} onAddPlace={handleAddPlaceSubmit} isOpened={isAddPlacePopupOpen} onClose={closeAllPopups} />
+        <EditAvatarPopup isApiProcessing={isApiProcessing} onUpdateAvatar={handleUpdateAvatar} isOpened={isEditAvatarPopupOpen} onClose={closeAllPopups} />
+        <ConfirmDeletePopup isApiProcessing={isApiProcessing} isOpened={isConfirmDeletePopupOpen} onClose={closeAllPopups} onSubmit={handleCardDelete} />
       </CurrentUserContext.Provider>
     </div>
   );

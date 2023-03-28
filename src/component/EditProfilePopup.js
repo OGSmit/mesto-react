@@ -32,7 +32,7 @@ function EditProfilePopup(props) {
   }, [currentUser, props.isOpened]);
 
   return (
-    <PopupWithForm onSubmit={handleSubmit} buttonText="Сохранить" isOpened={props.isOpened} onClose={props.onClose} name="popup_edit-profile" title="Редактировать профиль">
+    <PopupWithForm onSubmit={handleSubmit} buttonText={props.isOpened && props.isApiProcessing? 'Сохраняю...' : 'Сохранить'} isOpened={props.isOpened} onClose={props.onClose} name="popup_edit-profile" title="Редактировать профиль">
       <input
         value={name || ''}
         onChange={handleChangeName}

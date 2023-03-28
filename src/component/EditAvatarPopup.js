@@ -17,9 +17,8 @@ function EditAvatarPopup(props) {
   },[props.isOpened])
 
   return (
-    <PopupWithForm onSubmit={handleSubmit} buttonText="Сохранить" isOpened={props.isOpened} onClose={props.onClose} name="popup_edit-avatar" title="Обновить аватар">
+    <PopupWithForm onSubmit={handleSubmit} buttonText={props.isOpened && props.isApiProcessing? 'Сохраняю...' : 'Сохранить'} isOpened={props.isOpened} onClose={props.onClose} name="popup_edit-avatar" title="Обновить аватар">
       <input
-
         ref={inputRef || ''}
         type="url"
         id="link"
