@@ -7,6 +7,8 @@
   border-bottom: 1px solid rgba(84, 84, 84, .7);
   width: 100%;
   max-width: 880px;
+  display: flex;
+  justify-content: space-between;
 }
 
 @media (min-width: 450px) {
@@ -22,3 +24,6 @@
   }
 }
 
+.header__codewars {
+  opacity: .6;
+}

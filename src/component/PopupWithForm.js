@@ -19,7 +19,7 @@ function PopupWithForm(props) {
       <div onClick={handleClickForChildren} className="popup__container popup__container_form popup__container_target">
         <button className="popup__buttons-close" type="button" onClick={props.onClose} />
         <h3 className="popup__title">{props.title}</h3>
-        <form onSubmit={props.onSubmit} className="popup__form" name={props.name} noValidate="">
+        <form onSubmit={props.onSubmit} className="popup__form" name={props.name} noValidate>
           {props.children}
           <button disabled={!props.isValid}
                   className={props.isValid ? "popup__buttons-save " : "popup__buttons-save popup__buttons-save_invalid"} 

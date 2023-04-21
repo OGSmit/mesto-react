@@ -26,6 +26,7 @@ function Card(props) {
       className="place-card__image"
       onClick={handleCardClick}
     />
+    <p className="place-card__author">by {props.card.owner.name}</p>
     <button className={isOwn? "place-card__buttons-delete" : "place-card__buttons-delete place-card__buttons-hidden" } onClick={handleDeleteClick} type="button" />
     <div className="place-card__container">
       <h2 className="place-card__subtitle">{props.name}</h2>
@@ -38,3 +39,5 @@ function Card(props) {
 }
 
 export default Card;
+
+// "place-card__author" в place-card.css
